@@ -41,7 +41,8 @@ struct file_operations kyouko3_fops = {
         .owner = THIS_MODULE
 };
 
-        /*
+kyouko3_init()
+{
         struct cdev whatever;
 
         cdev_init(&whatever, &kyouko3_fops);
@@ -50,13 +51,13 @@ struct file_operations kyouko3_fops = {
         printk(KERN_ALERT "whatever");
 
         return 0;
-        */
+}
 
-
-/*
+kyouko3_exit()
+{
         cdev_del();
         printk(KERN_ALERT "whatever");
-        */
+}
 
 module_init(kyouko3_init);
 module_exit(kyouko3_exit);
