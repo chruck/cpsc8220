@@ -11,11 +11,13 @@
 * This file is ...
 */
 
-char *dev = "/dev/kyouko3";
+#define DEVFNAME "/dev/kyouko3"
 
 int main(int argc, char **argv)
 {
-        mknod(&dev, mode, dev);
+        dev_t dev = makedev(MAJOR, MINOR);
+
+        mknod(DEVFNAME, S_IFCHR, dev);
 
 
 
