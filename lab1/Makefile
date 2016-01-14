@@ -5,8 +5,13 @@
 
 obj-m += kyouko3.o
 
-default:
-	${MAKE} -C /usr/src/linux M=${PWD} modules
+all: module useKyouko3
+
+useKyouko3:  useKyouko3.o
+	${CC} -o $@ $^
+
+module:
+	${MAKE} -C ../linux-4.3.3 M=${PWD} modules
 
 clean:
 	rm *.ks *.s *.mod.c
