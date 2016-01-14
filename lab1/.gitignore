@@ -36,3 +36,4 @@
 Module.symvers
 *.mod.c
 modules.order
+tags
