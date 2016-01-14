@@ -9,3 +9,6 @@ default:
 
 clean:
 	rm *.ks *.s *.mod.c
+
+tags:
+	ctags -R
