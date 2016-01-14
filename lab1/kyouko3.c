@@ -17,6 +17,7 @@
 #include <linux/kernel_stat.h>
 #include <linux/fs.h>
 #include <linux/cdev.h>
+#include "kyouko3.h"
 
 MODULE_LICENSE("Proprietary");
 MODULE_AUTHOR("Mickey Mouse");
@@ -44,11 +45,8 @@ struct cdev whatever;
 
 int kyouko3_init(void)
 {
-        int major = 500;
-        int minor = 127;
-
         cdev_init(&whatever, &kyouko3_fops);
-        cdev_add(&whatever, MKDEV(major, minor), 1);
+        cdev_add(&whatever, MKDEV(MKNOD_MAJOR, MKNOD_MINOR), 1);
 
         printk(KERN_ALERT "kyouko3_init");
 
