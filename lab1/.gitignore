@@ -37,3 +37,7 @@ Module.symvers
 *.mod.c
 modules.order
 tags
+.tmp_versions
+
+# Userspace binary
+useKyouko3
