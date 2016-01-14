@@ -112,3 +112,7 @@ all.config
 
 # Kdevelop4
 *.kdev4
+
+# Kernel generated stuff:
+.tmp_versions/
+tags
