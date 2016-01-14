@@ -1,6 +1,7 @@
 #
 # Makefile for kyouko3
 #
+# vim: set noexpandtab:
 
 obj-m += kyouko3.o
 
