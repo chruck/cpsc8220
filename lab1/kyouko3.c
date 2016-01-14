@@ -40,23 +40,28 @@ struct file_operations kyouko3_fops = {
         .release = kyouko3_release,
         .owner = THIS_MODULE
 };
+struct cdev whatever;
 
-kyouko3_init()
+int kyouko3_init(void)
 {
-        struct cdev whatever;
+        int major = 500;
+        int minor = 127;
 
         cdev_init(&whatever, &kyouko3_fops);
         cdev_add(&whatever, MKDEV(major, minor), 1);
 
-        printk(KERN_ALERT "whatever");
+        printk(KERN_ALERT "kyouko3_init");
 
         return 0;
 }
 
-kyouko3_exit()
+int kyouko3_exit(void)
 {
-        cdev_del();
-        printk(KERN_ALERT "whatever");
+        cdev_del(&whatever);
+
+        printk(KERN_ALERT "kyouko3_exit");
+
+        return 0;
 }
 
 module_init(kyouko3_init);
