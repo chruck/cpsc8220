@@ -11,10 +11,10 @@ useKyouko3:  useKyouko3.o
 	${CC} -o $@ $^
 
 module:
-	${MAKE} -C ../linux-4.3.3 M=${PWD} modules
+	${MAKE} -C /usr/src/linux M=${PWD} modules
 
 clean:
-	rm *.ks *.s *.mod.c
+	rm *.ks *.s *.mod.c tags
 
 tags:
 	ctags -R
