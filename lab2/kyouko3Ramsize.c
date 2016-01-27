@@ -18,7 +18,7 @@
 #include <sys/mman.h>
 
 struct u_kyouko_device {
-        unsigned int #u_control_base;
+        unsigned int *u_control_base;
         /* other fields go here */
 } kyouko3;
 
