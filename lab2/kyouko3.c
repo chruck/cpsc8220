@@ -18,7 +18,6 @@
 #include <linux/fs.h>
 #include <linux/cdev.h>
 #include <linux/delay.h>
-//#include <linux/barrier.h>
 #include <linux/pci.h>
 #include "kyouko3.h"
 
@@ -41,7 +40,7 @@ unsigned int K_READ_REG(unsigned int reg)
         udelay(1);
         rmb();  // read memory barrier
         // control_base is of type uint *
-        value = *(kyouko3.k_control_base + (reg >> 2));  
+        //value = *(kyouko3.k_control_base + (reg >> 2));  
         return value;
 }
 
@@ -54,7 +53,7 @@ int kyouko3_release(struct inode *inode, struct file *fp)
 
 int kyouko3_open(struct inode *inode, struct file *fp)
 {
-        ioremap();
+        //ioremap (unsigned long phys_addr, unsigned long size)
 
         printk(KERN_ALERT "kyouko3_open()");
 
@@ -66,12 +65,42 @@ int kyouko3_probe(struct pci_dev *pci_dev, const struct pci_device_id *pci_id)
         return 0;
 }
 
+void kyouko3_remove(struct pci_dev *dev)
+{
+        return;
+}
+
 struct pci_driver kyouko3_pci_drv = {
         .name = "Kyouko3",
         .id_table = kyouko3_dev_ids,
         .probe = kyouko3_probe,
-        .remove = kyouko3_remove
+        .remove = kyouko3_remove,
+        /*
+        .node = (struct list_head)NULL,
+        .suspend = (int *)NULL,
+        .suspend_late = (int *)NULL,
+        .resume_early = (int *)NULL,
+        .resume = (int *)NULL,
+        .shutdown = (void *)NULL,
+        .sriov_configure = (int *)NULL,
+        .err_handler = (struct pci_error_handlers *)NULL,
+        .driver = (struct device_driver)NULL,
+        .dynids = (struct pci_dynids)NULL,
+        */
 };
+
+long kyouko3_ioctl(struct file *fp, unsigned int cmd, unsigned long arg)
+{
+        //ioctl();
+        return 0;
+}
+
+int kyouko3_mmap(struct file *fp, struct vm_area_struct *vma)
+{
+        //mmap();
+
+        return 0;
+}
 
 struct file_operations kyouko3_fops = {
         .open = kyouko3_open,
