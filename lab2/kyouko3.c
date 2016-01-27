@@ -8,7 +8,7 @@
 *
 * @section DESCRIPTION
 *
-* Lab 1
+* Lab 2
 */
 
 #include <linux/init.h>
@@ -39,7 +39,7 @@ unsigned int K_READ_REG(unsigned int reg)
         // delay() is not needed for kyouko3, but it is on some flakey
         // hardware:
         udelay(1);
-        //rmd();  // read memory barrier
+        rmb();  // read memory barrier
         // control_base is of type uint *
         value = *(kyouko3.k_control_base + (reg >> 2));  
         return value;
