@@ -48,7 +48,7 @@ int kyouko3_init(void)
         cdev_init(&whatever, &kyouko3_fops);
         cdev_add(&whatever, MKDEV(MKNOD_MAJOR, MKNOD_MINOR), 1);
 
-        printk(KERN_ALERT "kyouko3_init");
+        printk(KERN_ALERT "kyouko3_init()");
 
         return 0;
 }
@@ -57,7 +57,7 @@ int kyouko3_exit(void)
 {
         cdev_del(&whatever);
 
-        printk(KERN_ALERT "kyouko3_exit");
+        printk(KERN_ALERT "kyouko3_exit()");
 
         return 0;
 }
