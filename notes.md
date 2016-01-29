@@ -1,9 +1,9 @@
-<!-- vim: set filetype=markdown -->
+<!-- vim: set filetype=markdown : -->
 
 # CPSC 8220:  Case Study in Operating Systems
 # CPSC 8221:  Case Study in Operating Systems Lab
 
-<div style="text-align:right">
+<div style="text-align:right" markdown="1">
 Jan 7, 2016
 </div>
 
