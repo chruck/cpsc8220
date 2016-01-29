@@ -20,22 +20,22 @@ No documentation except source code
 Book - Linux Device Drivers 4th ed -> 3.2 kernel -> coming out
 
 ## Reasons to take the course
-1) job @ systems software
-2) understand system performance
+1. job in systems software
+2. understand system performance
 
-## NOT
-1) satisfy PhD requirement
-2) boost GPA
+### NOT
+1. satisfy PhD requirement
+2. boost GPA
 
 ## Text
 * (class notes & handouts)
 * R. Love: Linux Kernel Development 3rd ed. (2.6 kernel)
 
-## Grades_
+## Grades
 - 3 Programming Projects -> Teams 15% each
-1) write device driver for graphics card -> IRQs, memory management
-2) ?
-3) ?
+1. write device driver for graphics card -> IRQs, memory management
+2. ?
+3. ?
 
 - Midterm exam - March 8 - 20%
 - Final exam - Apr 29 - 25%
@@ -60,8 +60,8 @@ Scale  | Grade
 - no handouts
 
 ## Prereq
-1) OS Principles (lock hierarchy, race conditions, semaphores)
-2) ability to read/write non-trivial C code
+1. OS Principles (lock hierarchy, race conditions, semaphores)
+2. ability to read/write non-trivial C code
 
 - Running in VM - KVM
 - Graphics Card - qemu
@@ -75,12 +75,12 @@ Scale  | Grade
         - provides serial line control
         - actually used to low-level config NetApp filers
 - to observe
-1) level of C sophistication
+1. level of C sophistication
         minimum -> starting point
-2) examples of important system calls
-        - fork()
-        - wait()
-        - ioctl() - going to implement a lot of these
+2. examples of important system calls
+        - `fork()`
+        - `wait()`
+        - `ioctl()` - going to implement a lot of these
 
 ### BASIC DESIGN
 
@@ -108,4 +108,21 @@ checking in our code is sufficient
 
 `Jan 12`
 
+- CJ Coursey - NetApp employee and student
+        - ccorsi@clemson.edu
+        - wrote the "AMD" graphics card
+
+## VMs in the lab tomorrow:
+- `130.127.106.40`
+- `ssh eckard@130.127.106.40`
+        - passwd `~~cpsc123~~`
+- then, `https://130.127.106.40`
+        - accept certificate error
+        - Click `User Portal`
+        - user/passwd
+        - domain: `plab`
+        - 10 minute boot menu
+        - choose `kernel 4.3.3`
+- After the first lab, the video card will be in the VM
+- CentOS
 
