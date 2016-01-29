@@ -1,7 +1,7 @@
-CPSC 8220:  Case Study in Operating Systems
-CPSC 8221:  Case Study in Operating Systems Lab
+# CPSC 8220:  Case Study in Operating Systems
+# CPSC 8221:  Case Study in Operating Systems Lab
 
-- Jan 7, 2016
+- Jan 7, 2016:
 
 Robert Geist
 Aubrey Lawson - lab TA
@@ -95,3 +95,7 @@ _BASIC DESIGN_
 
 --> Don't have time for error checking in this course, minimal error
 checking in our code is sufficient
+
+- Jan 12
+
+
