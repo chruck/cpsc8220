@@ -1,6 +1,7 @@
 # CPSC 8220:  Case Study in Operating Systems
 # CPSC 8221:  Case Study in Operating Systems Lab
 
+|             |
 | ----------: |
 | Jan 7, 2016 |
 
