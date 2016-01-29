@@ -34,13 +34,13 @@ struct pci_device_id kyouko3_dev_ids[] = {
 
 unsigned int K_READ_REG(unsigned int reg)
 {
-        unsigned int value;
+        unsigned int value = 0;
         // delay() is not needed for kyouko3, but it is on some flakey
         // hardware:
         udelay(1);
         rmb();  // read memory barrier
         // control_base is of type uint *
-        //value = *(kyouko3.k_control_base + (reg >> 2));  
+        //value = *(kyouko3.k_control_base + (reg >> 2));
         return value;
 }
 
@@ -107,29 +107,31 @@ struct file_operations kyouko3_fops = {
         .release = kyouko3_release,
         .unlocked_ioctl = kyouko3_ioctl,
         .mmap = kyouko3_mmap,
-        .owner = THIS_MODULE
+        .owner = THIS_MODULE,
 };
 
 int kyouko3_init(void)
 {
+        int rc = 0;
+
         cdev_init(&kyouko3_cdev, &kyouko3_fops);
         kyouko3_cdev.owner = THIS_MODULE;
         cdev_add(&kyouko3_cdev, MKDEV(MKNOD_MAJOR, MKNOD_MINOR), 1);
 
-        pci_register_driver(&kyouko3_pci_drv);
+        rc = pci_register_driver(&kyouko3_pci_drv);
 
-        printk(KERN_ALERT "kyouko3_init");
+        printk(KERN_ALERT "kyouko3_init()");
 
-        return 0;
+        return rc;
 }
 
-int kyouko3_exit(void)
+void kyouko3_exit(void)
 {
         cdev_del(&kyouko3_cdev);
 
-        printk(KERN_ALERT "kyouko3_exit");
+        printk(KERN_ALERT "kyouko3_exit()");
 
-        return 0;
+        return;
 }
 
 module_init(kyouko3_init);
