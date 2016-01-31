@@ -69,8 +69,9 @@ Scale  | Grade
 - QEMU - generic hardware
   - modified for real-looking like real AMD
 
-## Section 0:
-- Warm-up exercise (not part of kernel: get used to system calls)
+## Section 0: Warm-up Exercise
+(not part of kernel: get used to system calls)
+
 (handout)
 - user-level C code to review
   - provides serial line control
@@ -152,7 +153,7 @@ checking in our code is sufficient
 - remove echoing on one of
 - don't interpret special code
 
-(File descriptor numberss from above diagram:)
+_(File descriptor numbers from above diagram:)_
 
     +------------------------+
     | (stdin)                |
@@ -170,7 +171,7 @@ lab:  kernel module
 
 ## Lab 1
 module:
-- module init \_ macros/functions
+- module init \\\_ macros/functions
 - module exit /
 
 - `/sbin/insmod mymod.ko`  <- kernel object
@@ -182,3 +183,54 @@ On load: `printk()` from kernel
 - console priority - messages recorded or not
 
 `Jan 14`
+
+OVirt OpenVZ KVM QEmu
+
+"KVM and RAID will disappear"
+
+## Section 1:  Module-based Device Drivers
+- Modules offer quick kernel modifications - dynamically
+- vs. "old way" - compile/reboot -> more convenient
+
+K&R - version 6 - mysterious variable with '`++`'
+- Ken coding in one direction, Dennis decrements.  Where their code
+joins, there is a '`++`'.
+
+Linux - complains of security of modules
+
+Convenient, except:
+- To be useful, modues need access to kernel symbols - variables,
+        functions, structs
+- Only those symbols that have been exported for module use are
+        available
+- Older -> symbols not available
+  - `/proc/kallsyms` <- shows all symbols in kernel
+  - `linux/Module.symvers` <- shows those exported
+  - if exported symbols don't contain needed then modify kernel,
+        recompile, reboot.
+  - to export:  use macro `EXPORT_SYMBOL()`
+
+Using modules _can_ cost more time (initially)
+
+Use `nm module.ko | grep --ksymtab` to see symbols exported by `module.ko`
+
+### Device Driver
+Simple, in principle:
+- device is usually a card inserted into a PCIe slot, after which the
+device's onboard command registers appear at fixed memory addresses
+- the driver only needs to load these registers with bit strings that
+are commands understood by the device
+- the bits:  from the manual of the device -> registers and what the
+control.  AKA 'data book' - hidden, unless you work for a large
+company
+
+The card we have is very close to an ATI, which its databook.
+
+In practice:
+- Linux uses paged virtual memory
+  - so, there are 3 address spaces:
+    - physical
+    - kernel virtual
+    - user virtual
+  - the kernel and user virtual oddresses map onto physical
+  - older systems:  ~1/4 kernel virtual, ~3/4 user virtual
