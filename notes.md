@@ -1,6 +1,7 @@
 <!-- vim: set filetype=markdown : -->
 
 # CPSC 8220:  Case Study in Operating Systems
+and
 # CPSC 8221:  Case Study in Operating Systems Lab
 
 `Jan 7, 2016`
@@ -35,7 +36,7 @@ Book - Linux Device Drivers 4th ed -> 3.2 kernel -> coming out
 - 3 Programming Projects -> Teams 15% each
 
 1. write device driver for graphics card -> IRQs, memory management
-2. ?
+2. SCSI device?
 3. ?
 
 - Midterm exam - March 8 - 20%
@@ -226,7 +227,7 @@ company
 
 The card we have is very close to an ATI, which its databook.
 
-In practice:
+_In practice_:
 - Linux uses paged virtual memory
   - so, there are 3 address spaces:
     - physical
@@ -234,3 +235,79 @@ In practice:
     - user virtual
   - the kernel and user virtual oddresses map onto physical
   - older systems:  ~1/4 kernel virtual, ~3/4 user virtual
+  - and, 2 sets of page tables to get through:
+  - further, most devices use DMA (Direct Memory Access), where the
+  card reaches into main memory (via the physical address)
+    - DMA buffer managemnte is necessary (for us)
+    - card is independant of the kernel, so race conditions need to be
+    accounted for
+    - when it is done with the memory, it sends an interrupt
+    - so, an interrupt handler is needed
+
+A convenient vehicle for driver design is the Unix _character device_
+structure.
+- character devices support the `ioctl()` system call for which one
+arguement (the second one) is a 'command'.
+Therefore, you can have many cards in one with a large `switch`
+statement.
+
+"`ioctl()` is a Swiss Army Knife."
+
+Also, (besides driver code) we need to implement user code -> group
+with others
+
+Implement these 6 functions:
+1. `module_init()`
+2. `module_exit()`
+3. `kyouto3_open()`
+4. `kyouto3_release()`
+5. `kyouto3_mmap()`
+6. `kyouto3_ioctl()`
+
+Use tagged initialization:
+
+_(kernel source)_
+
+    struct file_operations kyouto3_fops = {
+            .open = kyouto3_open,
+            .release = kyouto3_release,
+            // emphasis on "unlocked", because kernel 2.6 and before
+            // had the "big kernel lock"
+            .unlocked_ioctl = kyouto3_ioctl,
+            .mmap = kyouto3_mmap,
+            .owner = THIS_MODULE  // keeps a usage count
+    };
+
+From `<cdev.h>`:
+
+    struct cdev kyouto3_cdev
+
+Thus, a user-level call to:
+- `open()` calls to `kyouto3_open()`
+- `close()` calls to `kyouto3_release()`
+- `ioctl()` calls to `kyouto3_ioctl()`
+- `running()` calls and gets results from `kyouto3_mmap()`
+
+`module_init()`:
+
+    cdev_init(&kyouto3_cdev, &kyouto3_fops);
+    kyouto3_cdev.owner = THIS_MODULE;
+    // cdev address:
+    cdev_add(&kyouto3_cdev, MKDEV(maj, min), 1);
+
+where `maj` and `min` are `KYOUKO3_MAJOR` and `KYOUKO3_MINOR`, respectively
+
+Still need to scan the PCIe bus to find the correct one -> not the
+major/minor, manufacturer's name string.
+- ^ _after_ the call to `cdev_add()`, probe the PCIe bus to find the
+real Kyouto3 device by calling:
+
+`Jan 19`
+
+_(call ofter `cdev_add()`:)_
+
+    pci_register_driver(&kyouto3_pci_drv);
+
+where (`pci.h`):
+
+    struct
